@@ -14,7 +14,7 @@ export const TURNS = {
   O: 'O'
 }
 
-export const POINTS_WIN = 2
+export const POINTS_WIN = 3
 
 export const checkWinner = (newBoard) => {
   for (const combo of WINNER_COMBOS) {
