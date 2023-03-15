@@ -42,9 +42,13 @@ body {
   height: 100%;
 }
 
-.board h1 {
+.board-title {
   color: #eee;
   margin-bottom: 16px;
+}
+
+.board-text {
+  margin: 20px 0px;
 }
 
 button {

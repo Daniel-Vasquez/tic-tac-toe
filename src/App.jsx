@@ -34,11 +34,11 @@ function App() {
       setWinner(newWiner)
     }
 
-    if (newWiner === 'X') {
+    if (newWiner === 'X' && newWiner != null) {
       setPointX(pointX + 1)
     }
 
-    if (newWiner === 'O') {
+    if (newWiner === 'O' && newWiner != null) {
       setPointO(pointO + 1)
     } 
     
@@ -53,32 +53,31 @@ function App() {
     setBoard(Array(9).fill(null))
     setTurn(TURNS.X)
     setWinner(null)
+  }
 
-    if (pointX == POINTS_WIN || pointO == POINTS_WIN) {
-      setPointX(0)
-      setPointO(0)
-    }
+  const hardReset = () => {
+    setBoard(Array(9).fill(null))
+    setTurn(TURNS.X)
+    setWinner(null)
+    setPointX(0)
+    setPointO(0)
   }
   
   if (pointX == POINTS_WIN || pointO == POINTS_WIN) {
     return (
-      <div className="winner">
-        <div className="text">
-          <h2>Ganador definitivo:</h2>
-          <div className="win">
-            <Square>{winner}</Square>
-          </div>
-          <button onClick={resetGame}>Reiniciar juego</button>
-        </div>
-      </div>
+      <WinnerComponent
+        winner={winner}
+        resfnResetet={ hardReset }
+        text="Ganador definitivo"
+      />
     )
   }
 
   return (
     <main className="board">
       <div>
-        <h1>Tic tac toe</h1>
-        <p style={{ margin: '20px 0px' }}>Que gane el mejor a {POINTS_WIN} puntos.</p>
+        <h1 className="board-title">Tic tac toe</h1>
+        <p className="board-text">Que gane el mejor a {POINTS_WIN} puntos.</p>
       </div>
         
       <div className='container-app'>
@@ -88,18 +87,22 @@ function App() {
           <ScoreBoard letter='O' point={ pointO } />
         </section>
 
-        <section className="game">
-          {board.map((letter, index) => (
-            <Square
-              key={index}
-              index={index}
-              updateBoard={(index) => updateBoard(index)}
-            >
-              { letter }
-            </Square>
-          ))}
-        </section>
-        
+        <div>
+          <section className="game">
+            {board.map((letter, index) => (
+              <Square
+                key={index}
+                index={index}
+                updateBoard={(index) => updateBoard(index)}
+              >
+                { letter }
+              </Square>
+            ))}
+          </section>  
+
+          <button onClick={hardReset}>Empezar de nuevo</button>
+        </div>
+
         <div>
           <h3>Turno:</h3>
           <section className="turn">
@@ -112,7 +115,13 @@ function App() {
           </section>
         </div>
 
-        { winner && <WinnerComponent winner={winner} resetGame={ resetGame } /> }
+        {winner &&
+          <WinnerComponent
+            winner={winner}
+            fnReset={ resetGame }
+            text="Ganó"
+          />
+        }
       
         { winner === false && <DeadHeat resetGame={ resetGame } /> }
 

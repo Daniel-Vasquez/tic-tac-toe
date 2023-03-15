@@ -3,7 +3,7 @@ export const DeadHeat = ({resetGame}) => {
     <div className="winner">
       <div className="text">
         <h2>Empate</h2>
-        <button onClick={resetGame}>Reiniciar juego</button>
+        <button onClick={resetGame}>Seguir jugando</button>
       </div>
     </div>
   )
