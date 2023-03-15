@@ -67,7 +67,7 @@ function App() {
     return (
       <WinnerComponent
         winner={winner}
-        resfnResetet={ hardReset }
+        fnReset={ hardReset }
         text="Ganador definitivo"
       />
     )
