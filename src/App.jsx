@@ -1,8 +1,8 @@
 import { useState } from "react"
-import { Square } from "./component/Square"
+import { Board } from "./component/Board.jsx"
+import { Square } from "./component/Square.jsx"
+import { WinnerModal } from './component/WinnerModal.jsx'
 import { checkWinner, TURNS, POINTS_WIN } from "./utils"
-import { WinnerComponent } from './component/WinnerComponent.jsx'
-import { DeadHeat } from "./component/DeadHeat"
 import { ScoreBoard } from "./component/ScoreBoard"
 
 function App() {
@@ -42,9 +42,9 @@ function App() {
       setPointO(pointO + 1)
     } 
     
-    const allPositionsHaveValue = newBoard.every((value) => value !== undefined && value !== null);
+    const allPositionsHaveValue = newBoard.every((square) => square !== undefined && square !== null);
 
-    if (allPositionsHaveValue && !winner) {
+    if (allPositionsHaveValue) {
       setWinner(false)
     }
   }
@@ -65,66 +65,63 @@ function App() {
   
   if (pointX == POINTS_WIN || pointO == POINTS_WIN) {
     return (
-      <WinnerComponent
+      <WinnerModal
         winner={winner}
+        pointX={pointX}
+        pointO={ pointO }
         fnReset={ hardReset }
-        text="Ganador definitivo"
       />
     )
   }
 
   return (
     <main className="board">
-      <div>
+      <header className="header">
         <h1 className="board-title">Tic tac toe</h1>
         <p className="board-text">Que gane el mejor a {POINTS_WIN} puntos.</p>
-      </div>
+      </header>
         
       <div className='container-app'>
-        <section className="scoreboard">
-          <h3>Marcador</h3>
-          <ScoreBoard letter='X' point={ pointX } />
-          <ScoreBoard letter='O' point={ pointO } />
-        </section>
+        <ScoreBoard
+          pointX={pointX}
+          pointO={pointO}
+        />
 
-        <div>
-          <section className="game">
-            {board.map((letter, index) => (
-              <Square
-                key={index}
-                index={index}
-                updateBoard={(index) => updateBoard(index)}
-              >
-                { letter }
-              </Square>
-            ))}
-          </section>  
+        <section className="game">
+          <Board board={ board } updateBoard={ updateBoard }/>
+        </section>  
 
-          <button onClick={hardReset}>Empezar de nuevo</button>
-        </div>
-
-        <div>
+        <section className="turns-container">
           <h3>Turno:</h3>
           <section className="turn">
-          <Square isSeleted={turn === TURNS.X}>
-            {TURNS.X}
-          </Square>
-          <Square isSeleted={turn === TURNS.O}>
-            {TURNS.O}
-          </Square>
+            <Square isSeleted={turn === TURNS.X}>
+              {TURNS.X}
+            </Square>
+            <Square isSeleted={turn === TURNS.O}>
+              {TURNS.O}
+            </Square>
           </section>
-        </div>
+        </section>
 
-        {winner &&
-          <WinnerComponent
+        {(winner || winner === false) &&
+          <WinnerModal
             winner={winner}
+            pointX={ pointX }
+            pointO={ pointO }
             fnReset={ resetGame }
-            text="Ganó"
           />
         }
-      
-        { winner === false && <DeadHeat resetGame={ resetGame } /> }
+      </div>
 
+      <div className="start-again-btn">
+        {(pointX > 0 || pointO > 0 ) && 
+          <button
+            className="btn-hardReset"
+            onClick={hardReset}
+          >
+            Reiniciar juego
+          </button>
+        }
       </div>
     </main>
   )

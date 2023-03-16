@@ -29,11 +29,17 @@ body {
   min-height: 100vh;
 }
 
+.header {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  padding: 20px 0 10px;
+}
+
 .board {
   width: fit-content;
-  /* margin: 40px auto; */
   text-align: center;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -44,11 +50,11 @@ body {
 
 .board-title {
   color: #eee;
-  margin-bottom: 16px;
+  margin: 10px 0px;
 }
 
 .board-text {
-  margin: 20px 0px;
+  margin: 10px 0px;
 }
 
 button {
@@ -59,7 +65,7 @@ button {
   color: #eee;
   width: 100px;
   border-radius: 5px;
-  transition: 0.2s;
+  transition: 0.3s all;
   font-weight: bold;
   cursor: pointer;
 }
@@ -144,6 +150,12 @@ button {
   font-size: 48px;
 }
 
+.turns-container {
+  border: 1px solid white;
+  border-radius: 15px;
+  padding: 10px 0pc;
+}
+
 .container-app {
   display: flex;
   gap: 20px;
@@ -158,14 +170,32 @@ button {
   width: 145px;
 }
 
+.start-again-btn {
+  height: 90px;
+}
+
+.start-again-btn .btn-hardReset:hover, 
+.btn-hardReset:hover  {
+  background-color: red; 
+  color: white;
+}
+
 @media screen and (max-width: 650px) {
   .container-app {
     flex-direction: column;
+  }
+
+  .board {
+    margin: 65px auto 10px;
   }
   
   .square {
     width: 65px;
     height: 65px;
+  }
+
+  .turns-container {
+    width: 100%;
   }
 
   .turn {

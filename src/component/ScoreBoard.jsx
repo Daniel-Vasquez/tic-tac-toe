@@ -1,7 +1,16 @@
-export const ScoreBoard = ({letter, point}) => {
-  if (point === 1) {
-    return (<p>{letter}: {point} punto</p>)
-  } 
+export const ScoreBoard = ({ pointX, pointO }) => {
+  const  xTextPoints = pointX === 1 ? 'punto' : 'puntos'
+  const  oTextPoints = pointO === 1 ? 'punto' : 'puntos'
 
-  return (<p>{letter}: {point} puntos</p>)
+  return (
+    <section className="scoreboard">
+      <h3>Marcador</h3>
+      <p>
+        X: {pointX} {xTextPoints}
+      </p>
+      <p>
+        O: {pointO} {oTextPoints}
+      </p>
+    </section>
+  )
 }
