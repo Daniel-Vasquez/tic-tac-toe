@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Board } from "./component/Board.jsx"
 import { Square } from "./component/Square.jsx"
 import { WinnerModal } from './component/WinnerModal.jsx'
-import { checkWinner, TURNS, POINTS_WIN } from "./utils"
+import { checkWinner, TURNS, POINTS_WIN, getRandomIndex } from "./utils"
 import { ScoreBoard } from "./component/ScoreBoard"
 
 function App() {
@@ -18,17 +18,40 @@ function App() {
 
   const [pointO, setPointO] = useState(0)
 
+  const [isCheckedBot, setIsCheckedBot] = useState(false);
+
+  const localStorage = window.localStorage
+
   const updateBoard = (index) => {
     if (board[index] || winner) return
-
+    
     const newBoard = [...board]
-    newBoard[index] = turn
-    setBoard(newBoard)
 
-    const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X
-    setTurn(newTurn)
+    if (isCheckedBot === false) {
+      newBoard[index] = turn
+      setBoard(newBoard)
+
+      const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X
+      setTurn(newTurn)
+    } else {
+      if (turn === 'X') {
+        newBoard[index] = turn
+        setBoard(newBoard)
+      }
+  
+      const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X
+      
+      const robotShot = getRandomIndex(newBoard)
+      
+      if (robotShot != undefined) {
+        newBoard[robotShot] = newTurn
+      }
+      
+      setBoard(newBoard)
+    }
 
     const newWiner = checkWinner(newBoard)
+    console.log({newWiner})
 
     if (newWiner) {
       setWinner(newWiner)
@@ -62,6 +85,11 @@ function App() {
     setPointX(0)
     setPointO(0)
   }
+
+  const handleInputChange = () => {
+    setIsCheckedBot(!isCheckedBot);
+    hardReset()
+  };
   
   if (pointX == POINTS_WIN || pointO == POINTS_WIN) {
     return (
@@ -80,8 +108,25 @@ function App() {
         <h1 className="board-title">Tic tac toe</h1>
         <p className="board-text">Que gane el mejor a {POINTS_WIN} puntos.</p>
       </header>
-        
-      <div className='container-app'>
+
+      <div className="switch-container">
+        JUGAR CONTRA LA MAQUINA
+        <div className="switch-container-options">
+          <span>NO</span>
+          <label className="switch">
+            <input
+              type="checkbox"
+              checked={isCheckedBot}
+              onChange={handleInputChange}
+              
+              />
+          <span className="slider"></span>
+          </label> 
+          <span>SI</span>
+        </div>
+      </div>
+
+      <div className="container-app ">
         <ScoreBoard
           pointX={pointX}
           pointO={pointO}
@@ -91,17 +136,20 @@ function App() {
           <Board board={ board } updateBoard={ updateBoard }/>
         </section>  
 
-        <section className="turns-container">
-          <h3>Turno:</h3>
-          <section className="turn">
-            <Square isSeleted={turn === TURNS.X}>
-              {TURNS.X}
-            </Square>
-            <Square isSeleted={turn === TURNS.O}>
-              {TURNS.O}
-            </Square>
+        {isCheckedBot === false && (
+          <section className="turns-container">
+            <h3>Turno:</h3>
+            <section className="turn">
+              <Square isSeleted={turn === TURNS.X}>
+                {TURNS.X}
+              </Square>
+              <Square isSeleted={turn === TURNS.O}>
+                {TURNS.O}
+              </Square>
+            </section>
           </section>
-        </section>
+        )}
+      </div>
 
         {(winner || winner === false) &&
           <WinnerModal
@@ -111,7 +159,6 @@ function App() {
             fnReset={ resetGame }
           />
         }
-      </div>
 
       <div className="start-again-btn">
         {(pointX > 0 || pointO > 0 ) && 

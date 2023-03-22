@@ -31,3 +31,23 @@ export const checkWinner = (newBoard) => {
 
   return null
 }
+
+export function getRandomIndex(board) {
+  const availableIndexes = board
+    .map((value, index) => value !== 'X' && value !== 'O' ? index : -1)
+    .filter(index => index !== -1);
+
+  if (availableIndexes.length <= 1) {
+    return undefined
+  }
+
+  let randomIndex;
+  do {
+    randomIndex = Math.floor(Math.random() * availableIndexes.length);
+  } while (availableIndexes[randomIndex] === undefined);
+
+  const indexToRemove = availableIndexes[randomIndex];
+  availableIndexes[randomIndex] = undefined;
+
+  return indexToRemove;
+}
