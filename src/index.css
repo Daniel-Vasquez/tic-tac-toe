@@ -88,8 +88,8 @@ button {
 
 .turn .square,
 .winner .square {
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   pointer-events: none;
   border-color: transparent;
   font-size: 30px;

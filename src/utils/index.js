@@ -10,8 +10,8 @@ const WINNER_COMBOS = [
 ]
 
 export const TURNS = {
-  X: 'X',
-  O: 'O'
+  X: '❌',
+  O: '⚪'
 }
 
 export const POINTS_WIN = 3
@@ -34,7 +34,7 @@ export const checkWinner = (newBoard) => {
 
 export function getRandomIndex(board) {
   const availableIndexes = board
-    .map((value, index) => value !== 'X' && value !== 'O' ? index : -1)
+    .map((value, index) => value !== TURNS.X && value !== TURNS.O ? index : -1)
     .filter(index => index !== -1);
 
   if (availableIndexes.length <= 1) {

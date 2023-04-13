@@ -4,6 +4,7 @@ import { Square } from "./component/Square.jsx"
 import { WinnerModal } from './component/WinnerModal.jsx'
 import { checkWinner, TURNS, POINTS_WIN, getRandomIndex } from "./utils"
 import { ScoreBoard } from "./component/ScoreBoard"
+import { ButtonResetGame } from "./component/ButtonResetGame.jsx"
 
 function App() {
   const [board, setBoard] = useState(
@@ -20,11 +21,9 @@ function App() {
 
   const [isCheckedBot, setIsCheckedBot] = useState(false);
 
-  const localStorage = window.localStorage
-
   const updateBoard = (index) => {
     if (board[index] || winner) return
-    
+
     const newBoard = [...board]
 
     if (isCheckedBot === false) {
@@ -34,40 +33,39 @@ function App() {
       const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X
       setTurn(newTurn)
     } else {
-      if (turn === 'X') {
+      if (turn === TURNS.X) {
         newBoard[index] = turn
         setBoard(newBoard)
       }
-  
+
       const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X
-      
+
       const robotShot = getRandomIndex(newBoard)
-      
+
       if (robotShot != undefined) {
         newBoard[robotShot] = newTurn
       }
-      
+
       setBoard(newBoard)
     }
 
     const newWiner = checkWinner(newBoard)
-    console.log({newWiner})
 
     if (newWiner) {
       setWinner(newWiner)
     }
 
-    if (newWiner === 'X' && newWiner != null) {
+    if (newWiner === TURNS.X && newWiner != null) {
       setPointX(pointX + 1)
     }
 
-    if (newWiner === 'O' && newWiner != null) {
+    if (newWiner === TURNS.O && newWiner != null) {
       setPointO(pointO + 1)
-    } 
-    
+    }
+
     const allPositionsHaveValue = newBoard.every((square) => square !== undefined && square !== null);
 
-    if (allPositionsHaveValue) {
+    if (allPositionsHaveValue && !newWiner) {
       setWinner(false)
     }
   }
@@ -90,14 +88,27 @@ function App() {
     setIsCheckedBot(!isCheckedBot);
     hardReset()
   };
-  
+
+  const somePositionHasValue = board.some(square => square != null)
+
   if (pointX == POINTS_WIN || pointO == POINTS_WIN) {
     return (
       <WinnerModal
         winner={winner}
         pointX={pointX}
-        pointO={ pointO }
-        fnReset={ hardReset }
+        pointO={pointO}
+        fnReset={hardReset}
+      />
+    )
+  }
+
+  if (winner || winner === false) {
+    return (
+      <WinnerModal
+        winner={winner}
+        pointX={pointX}
+        pointO={pointO}
+        fnReset={resetGame}
       />
     )
   }
@@ -118,10 +129,9 @@ function App() {
               type="checkbox"
               checked={isCheckedBot}
               onChange={handleInputChange}
-              
-              />
-          <span className="slider"></span>
-          </label> 
+            />
+            <span className="slider"></span>
+          </label>
           <span>SI</span>
         </div>
       </div>
@@ -133,8 +143,8 @@ function App() {
         />
 
         <section className="game">
-          <Board board={ board } updateBoard={ updateBoard }/>
-        </section>  
+          <Board board={board} updateBoard={updateBoard} />
+        </section>
 
         {isCheckedBot === false && (
           <section className="turns-container">
@@ -151,23 +161,21 @@ function App() {
         )}
       </div>
 
-        {(winner || winner === false) &&
-          <WinnerModal
-            winner={winner}
-            pointX={ pointX }
-            pointO={ pointO }
-            fnReset={ resetGame }
+      {somePositionHasValue && pointX <= 0 && pointO <= 0 && (
+        <div className="start-again-btn">
+          <ButtonResetGame
+            fnReset={hardReset}
+            text='Reiniciar juego'
           />
-        }
+        </div>
+      )}
 
       <div className="start-again-btn">
-        {(pointX > 0 || pointO > 0 ) && 
-          <button
-            className="btn-hardReset"
-            onClick={hardReset}
-          >
-            Reiniciar juego
-          </button>
+        {(pointX > 0 || pointO > 0) &&
+          <ButtonResetGame
+            fnReset={hardReset}
+            text='Reiniciar juego'
+          />
         }
       </div>
     </main>

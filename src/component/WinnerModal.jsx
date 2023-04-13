@@ -1,4 +1,5 @@
 import { Square } from "./Square";
+import { ButtonResetGame } from "./ButtonResetGame";
 
 export const WinnerModal = ({ fnReset, winner, pointX, pointO }) => {
   const winnerText = winner === false ? 'Empate' : 'Ganó'
@@ -20,8 +21,8 @@ export const WinnerModal = ({ fnReset, winner, pointX, pointO }) => {
 
         <footer>
           {ultimateWinnerText
-            ? <button className="btn-hardReset" onClick={fnReset}>Reiniciar juego</button>
-            : <button onClick={fnReset}>Volver a jugar</button>
+            ? <ButtonResetGame fnReset={fnReset} text='Reiniciar juego' />
+            : <ButtonResetGame fnReset={fnReset} text='Volver a jugar' />
           }
         </footer>
       </div>
