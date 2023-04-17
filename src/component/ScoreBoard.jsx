@@ -1,3 +1,5 @@
+import { TURNS } from "../utils"
+
 export const ScoreBoard = ({ pointX, pointO }) => {
   const  xTextPoints = pointX === 1 ? 'punto' : 'puntos'
   const  oTextPoints = pointO === 1 ? 'punto' : 'puntos'
@@ -6,11 +8,17 @@ export const ScoreBoard = ({ pointX, pointO }) => {
     <section className="scoreboard">
       <h3>Marcador</h3>
       <div className="scoreboard-info">
-       <p>
-          X: {pointX} {xTextPoints}
+        <p>
+          <span className="scoreboard-info__turn">
+            {TURNS.X}:
+          </span>
+          {pointX} {xTextPoints}
         </p>
         <p>
-          O: {pointO} {oTextPoints}
+          <span className="scoreboard-info__turn">
+            {TURNS.O}:
+          </span>
+          {pointO} {oTextPoints}
         </p>
       </div>
     </section>

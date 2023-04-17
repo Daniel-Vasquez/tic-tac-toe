@@ -1,10 +1,12 @@
-export const ButtonResetGame = ({fnReset, text}) => {
+export const ButtonResetGame = ({fnReset, text, className}) => {
   return (
-    <button
-      className="btn-hardReset"
-      onClick={fnReset}
-    >
-      {text}
-    </button>
+    <div className={className}>
+      <button
+        className="btn-hardReset"
+        onClick={fnReset}
+      >
+        {text}
+      </button>
+    </div>
   )
 }

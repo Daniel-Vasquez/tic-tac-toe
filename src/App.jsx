@@ -146,7 +146,7 @@ function App() {
           <Board board={board} updateBoard={updateBoard} />
         </section>
 
-        {isCheckedBot === false && (
+        {!isCheckedBot && (
           <section className="turns-container">
             <h3>Turno:</h3>
             <section className="turn">
@@ -162,22 +162,20 @@ function App() {
       </div>
 
       {somePositionHasValue && pointX <= 0 && pointO <= 0 && (
-        <div className="start-again-btn">
-          <ButtonResetGame
-            fnReset={hardReset}
-            text='Reiniciar juego'
-          />
-        </div>
+        <ButtonResetGame
+          fnReset={hardReset}
+          text='Reiniciar juego'
+          className='start-again-btn'
+        />
       )}
 
-      <div className="start-again-btn">
-        {(pointX > 0 || pointO > 0) &&
-          <ButtonResetGame
-            fnReset={hardReset}
-            text='Reiniciar juego'
-          />
-        }
-      </div>
+      {(pointX > 0 || pointO > 0) &&
+        <ButtonResetGame
+          fnReset={hardReset}
+          text='Reiniciar juego'
+          className='start-again-btn'
+        />
+      }
     </main>
   )
 }

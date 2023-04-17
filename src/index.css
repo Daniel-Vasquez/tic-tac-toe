@@ -66,7 +66,7 @@ button {
   cursor: pointer;
 }
 
-.board button:hover {
+button:hover {
   background: #eee;
   color: #222;
 }
@@ -166,7 +166,7 @@ button {
   border-top: 1px solid white;
   padding: 10px 0px;
   border-radius: 25px;
-  width: 70%;
+  width: 75%;
   height: 100px;
 }
 
@@ -177,18 +177,21 @@ button {
   padding: 10px 0px;
 }
 
+.scoreboard-info__turn {
+  margin-right: 5px;
+}
+
 .start-again-btn {
   height: 90px;
 }
 
-.start-again-btn .btn-hardReset:hover, 
-.btn-hardReset:hover  {
+.start-again-btn .btn-hardReset:hover {
   background-color: red; 
   color: white;
 }
 
 
-/* ---------------------- #input ---------------------- */
+/* #input */
 .switch-container {
   display: flex;
   flex-direction: column;
@@ -275,7 +278,7 @@ input:checked + .slider
 {
   box-shadow: 0 0 0 2px red, 0 0 8px red;
 }
-/* ---------------------- /input ---------------------- */
+/* /input  */
 
 @media screen and (max-width: 650px) {
   .container-app {
@@ -283,10 +286,6 @@ input:checked + .slider
     grid-template: auto 1fr auto / 1fr;
     gap: 30px;
   }
-
-  /* .board {
-    margin: 65px auto 10px;
-  } */
   
   .square {
     width: 65px;
